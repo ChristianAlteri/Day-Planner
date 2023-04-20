@@ -1,38 +1,50 @@
 const hours = [09, 10, 11, 12, 13, 14, 15, 16, 17, 18];
 let currentHour = dayjs().format("H");
 
-let time = dayjs().format("dddd, MMMM D YYYY");
+let time = dayjs().format("dddd MMMM D, YYYY.");
 $("#currentDay").text(time);
 
 function displayTimeBlocks() {
   // clear the HTML
   $("#time-block-container").empty();
+
   for (let i = 0; i < 10; i++) {
     let hour = hours[i];
     const id = `time-block-container${i}`;
-    const classColor =
-      hour == currentHour ? "present" : hour > currentHour ? "future" : "past";
-    const halfDay = hour < 12 ? "am" : "pm";
+    const classColor = hour == currentHour ? "present" : hour > currentHour ? "future" : "past";
+    const displayTime =  halfDay = hour < 12 ? hour + ":00am" : hour === 12 ? ":00pm" : (hour - 12) + ":00pm";
+    const storedEntry = localStorage.getItem(id);
+    console.log(storedEntry + id);
+    
+    if (id) {
+    $(`#${id}`).val(JSON.parse(storedEntry));
+    }
+
     const card = $(`
       <div class="d-flex p-2 padding flex-wrap m-0.1 time-block ${classColor}">
         <div class=" padding hour text-center py-3">${
-          hour + ":00" + halfDay
+          displayTime
         }</div>
-        <textarea id="${id}" class=" md-2 col-8 col-md-10 description" rows="3"> </textarea>
-        <button class="btn saveBtn col-2 d-flex justify-content-end" onclick="saveEntry('${id}')">
+        <textarea id="${id}" class="text md-2 col-8 col-md-10 description" rows="3"> </textarea>
+        <button class="btn saveBtn col-2 " onclick="saveEntry('${id}')">
         <i id="save" style='font-size:40px' class='fas'>&#xf0c7</i> </button>
       </div>
       `);
-console.log(id);
-console.log($(`#${id}`).text());
+    
+
     $("#time-block-container").append(card);
   }
 }
 
-function saveEntry() {
-  console.log(id);
-  console.log($(`#${id}`).text());
-  localStorage.setItem(JSON.stringify($(`#${id}`).text()));
+
+function saveEntry(id) {
+  let dataEntry = $(`#${id}`).val();
+  localStorage.setItem(id ,JSON.stringify(dataEntry));
+  // storedItems = localStorage.getItem(id ,JSON.stringify(dataEntry));
+  // console.log(storedItems);
+  
+
+
 }
 
 displayTimeBlocks();
