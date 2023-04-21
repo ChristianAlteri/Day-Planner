@@ -31,10 +31,23 @@ function displayTimeBlocks() {
     $("#time-block-container").append(card);
     // now that the html exists we can grab the <textarea> and from that we grab whatever is in the textContent and re load it to the area.
     let textElement = document.getElementById(id)
+    // let dataArray = []
+    // let data = textElement.textContent
+    // dataArray.push(data)
+    // console.log(dataArray);
     console.log(textElement);
+    console.log(storedEntry);
     
-    textElement.textContent = storedEntry || ""
+    if(storedEntry){
+    let storedEntryAsData = storedEntry.replace(/['"]+/g, '') 
+    textElement.textContent = storedEntryAsData; 
+    console.log(storedEntryAsData);
+    return;
+    }else{
+    textElement.textContent = ""
+    // textElement.textContent = notStringData || ""
   }
+}
 }
 
 
