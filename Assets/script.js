@@ -1,24 +1,20 @@
+// ---Global Variables---//
 const hours = [09, 10, 11, 12, 13, 14, 15, 16, 17, 18];
 let currentHour = dayjs().format("H");
-
+// Setting timer
 let time = dayjs().format("dddd MMMM D, YYYY.");
 $("#currentDay").text(time);
-
+// Creating main function which creates our HTML based on the index of hours
 function displayTimeBlocks() {
   // clear the HTML
   $("#time-block-container").empty();
-
+  // Loop number of hours and create variables to inject into the template literal
   for (let i = 0; i < 10; i++) {
     let hour = hours[i];
     const id = `time-block-container${i}`;
     const classColor = hour == currentHour ? "present" : hour > currentHour ? "future" : "past";
     const displayTime =  halfDay = hour < 12 ? hour + ":00am" : hour === 12 ? ":00pm" : (hour - 12) + ":00pm";
     const storedEntry = localStorage.getItem(id);
-    console.log(storedEntry + id);
-    
-    if (id) {
-    $(`#${id}`).val(JSON.parse(storedEntry));
-    }
 
     const card = $(`
       <div class="d-flex p-2 padding flex-wrap m-0.1 time-block ${classColor}">
@@ -31,8 +27,13 @@ function displayTimeBlocks() {
       </div>
       `);
     
-
+    // Add template to the HTML
     $("#time-block-container").append(card);
+    // now that the html exists we can grab the <textarea> and from that we grab whatever is in the textContent and re load it to the area.
+    let textElement = document.getElementById(id)
+    console.log(textElement);
+    
+    textElement.textContent = storedEntry || ""
   }
 }
 
@@ -40,10 +41,6 @@ function displayTimeBlocks() {
 function saveEntry(id) {
   let dataEntry = $(`#${id}`).val();
   localStorage.setItem(id ,JSON.stringify(dataEntry));
-  // storedItems = localStorage.getItem(id ,JSON.stringify(dataEntry));
-  // console.log(storedItems);
-  
-
 
 }
 
