@@ -9,7 +9,7 @@ Enter a TODO: to see how it works!
 ###
 Written by Christian Alteri
 
-To learn more about my project, [click here](http://www.example.com).
+To learn more about my project, [click here](https://christianalteri.github.io/Day-Planner/).
 
 ####
 MIT License
